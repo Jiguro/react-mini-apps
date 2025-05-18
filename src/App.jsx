@@ -2,6 +2,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Counter from './components/Counter'
 import ToDoList from './components/ToDoList'
+import Attractions from './components/Attractions'
 
 const initialTodosMfr = [
   {
@@ -19,6 +20,9 @@ function App() {
 
   return (
     <>
+      <section>
+        <Attractions></Attractions>
+      </section>
       <section>
         <h1>Fitness Tracker</h1>
         <Counter label='Cardio sessions'/>

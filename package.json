@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "google-map-react": "github:MikeBeasterfeld/google-map-react#peer-dependencies-react-19",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
