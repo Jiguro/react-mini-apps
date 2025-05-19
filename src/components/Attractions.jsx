@@ -53,6 +53,8 @@ const initialAttractions = [
 
 function Attractions() {
     const [attractions, setAttractions] = useState(initialAttractions)
+    const [editAttraction, setEditAttraction] = useState(null)
+    const [newAttractionMode, setNewAttractionMode] = useState(false)
     const defaultMapProps = {
         apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
         center: { // Louvre museum
@@ -63,19 +65,72 @@ function Attractions() {
         hoverDistance: 10
     }
 
+    function attractionEdit(attraction) {
+        setEditAttraction(attraction)
+        setNewAttractionMode(false)
+    }
+
+    function formSubmit(event) {
+        event.preventDefault()
+        if (editAttraction && !newAttractionMode) {
+            setAttractions(attractions.map(attraction => attraction.id == editAttraction.id ? editAttraction : attraction))
+        } else if (editAttraction && newAttractionMode) {
+            setAttractions([...attractions, editAttraction])
+        }
+        formClear()
+    }
+
+    function formClear() {
+        setEditAttraction(null)
+        setNewAttractionMode(false)
+    }
+
+    function mapClick({x, y, lat, lng, event}) {
+        if (newAttractionMode) {
+            setEditAttraction({
+                id: attractions.length + 1,
+                name: "",
+                latitude: lat,
+                longitude: lng,
+                accessibilityType: AccessibilityType.Mobility,
+                severity: MobilitySeverity.Wheelchair,
+                accessibilityRating: AccessibilityRating.Negative
+            })
+        }
+    }
+
     return (
         <>
             <h1>Attractions suitable for disabled visitors</h1>
-            <div style={{ height: '100vh', width: '100%' }}>
+            <div style={{ height: '50vh', width: '100%' }}>
                 <GoogleMapReact bootstrapURLKeys={{ key: defaultMapProps.apiKey }}
                                 defaultCenter={defaultMapProps.center}
-                                defaultZoom={defaultMapProps.zoom}>
+                                defaultZoom={defaultMapProps.zoom}
+                                onClick={mapClick}>
                     {attractions.map(attraction => (
-                        <Attraction lat={attraction.latitude} lng={attraction.longitude}
-                                    key={attraction.id} attraction={attraction}/>
+                        <Attraction key={attraction.id}
+                                    lat={attraction.latitude} lng={attraction.longitude}
+                                    attraction={attraction} selectCallback={attractionEdit}/>
                     ))}
                 </GoogleMapReact>
             </div>
+            {editAttraction && (
+                <>
+                    <i>{newAttractionMode ? 'Adding new attraction' : 'Editing existing attraction'}</i>
+                    <form onSubmit={formSubmit}>
+                        <input type='text' value={editAttraction.name}
+                            onChange={e => setEditAttraction({...editAttraction, name: e.target.value})}/>
+                        <button type='submit'>Submit</button>
+                        <button onClick={e => formClear()}>Cancel</button>
+                    </form>
+                </>
+            )}
+            {!editAttraction && (
+                <button disabled={newAttractionMode}
+                        onClick={e => setNewAttractionMode(true)}>
+                    {newAttractionMode ? 'Now click on desired map location' : 'Click here to add new attraction'}
+                </button>
+            )}
         </>
     )
 }
