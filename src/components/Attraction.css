@@ -1,4 +1,15 @@
-span {
+a {
     color: black;
-    font-weight: bolder;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+a + span {
+    display: none;
+}
+
+a:hover + span {
+    display: inherit;
+    color: black;
 }

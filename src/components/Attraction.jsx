@@ -19,7 +19,12 @@ function Attraction(props) {
                 <circle r="10" cx="15" cy="15" strokeWidth="5" fill="none"
                         stroke={getRatingColor(props.attraction.accessibilityRating)} />
             </svg>
-            <span>{props.attraction.name}</span>
+            <a>{props.attraction.name}</a>
+            <span>
+                Type: <strong>{props.attraction.accessibilityType}</strong>
+                <br/>
+                Severity: <strong>{props.attraction.severity}</strong>
+            </span>
         </>
     )
 }
