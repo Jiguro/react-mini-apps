@@ -2,7 +2,28 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Counter from './components/Counter'
 import ToDoList from './components/ToDoList'
-import Attractions from './components/Attractions'
+import AttractionsMap from './components/AttractionsMap'
+import { AccessibilityType, MobilitySeverity, AccessibilityRating } from './components/Enums'
+
+const initialAttractions = [
+    {
+        id: 1,
+        name: "Eiffel Tower",
+        latitude: 48.8584,
+        longitude: 2.2945,
+        accessibilityType: AccessibilityType.Mobility,
+        severity: MobilitySeverity.Wheelchair,
+        accessibilityRating: AccessibilityRating.Positive
+    }, {
+        id: 2,
+        name: "Sacre Coeur",
+        latitude: 48.886452,
+        longitude: 2.343121,
+        accessibilityType: AccessibilityType.Mobility,
+        severity: MobilitySeverity.WalkingAid,
+        accessibilityRating: AccessibilityRating.Neutral
+    }
+]
 
 const initialTodosMfr = [
   {
@@ -21,7 +42,9 @@ function App() {
   return (
     <>
       <section>
-        <Attractions></Attractions>
+        <AttractionsMap initialAttractions={initialAttractions}>
+          <h1>Attractions suitable for disabled visitors</h1>
+        </AttractionsMap>
       </section>
       <section>
         <h1>Fitness Tracker</h1>

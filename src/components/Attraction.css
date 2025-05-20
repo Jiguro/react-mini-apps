@@ -3,6 +3,7 @@ a {
     text-decoration: underline;
     font-weight: bold;
     font-size: 1.5em;
+    white-space: nowrap;
 }
 
 a + span {
@@ -12,4 +13,5 @@ a + span {
 a:hover + span {
     display: inherit;
     color: black;
+    white-space: nowrap;
 }

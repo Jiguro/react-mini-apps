@@ -1,4 +1,4 @@
-import { AccessibilityRating } from "./Attractions"
+import { AccessibilityRating } from './Enums'
 import './Attraction.css'
 
 function Attraction({attraction, selectCallback}) {
@@ -24,6 +24,8 @@ function Attraction({attraction, selectCallback}) {
                 Type: <strong>{attraction.accessibilityType}</strong>
                 <br/>
                 Severity: <strong>{attraction.severity}</strong>
+                <br/>
+                Rating: <strong>{attraction.accessibilityRating}</strong>
             </span>
         </>
     )
