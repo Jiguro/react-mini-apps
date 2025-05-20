@@ -37,9 +37,9 @@ function AttractionsMap({children, initialAttractions}) {
                 name: "",
                 latitude: lat,
                 longitude: lng,
-                accessibilityType: AccessibilityType.Mobility,
-                severity: MobilitySeverity.Wheelchair,
-                accessibilityRating: AccessibilityRating.Negative
+                accessibilityType: null,
+                severity: null,
+                accessibilityRating: null
             })
         }
     }
