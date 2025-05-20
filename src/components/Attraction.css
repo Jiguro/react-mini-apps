@@ -15,3 +15,15 @@ a:hover + span {
     color: black;
     white-space: nowrap;
 }
+
+strong {
+    &.positive {
+        color: green;
+    }
+    &.neutral {
+        color: blue;
+    }
+    &.negative {
+        color: red;
+    }
+}

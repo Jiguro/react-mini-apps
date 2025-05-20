@@ -3,7 +3,7 @@ import './App.css'
 import Counter from './components/Counter'
 import ToDoList from './components/ToDoList'
 import AttractionsMap from './components/AttractionsMap'
-import { AccessibilityType, MobilitySeverity, AccessibilityRating } from './components/Enums'
+import { AccessibilityType, MobilitySeverity, AccessibilityRating, VisionSeverity, AudioSeverity } from './components/Enums'
 
 const initialAttractions = [
     {
@@ -11,8 +11,8 @@ const initialAttractions = [
         name: "Eiffel Tower",
         latitude: 48.8584,
         longitude: 2.2945,
-        accessibilityType: AccessibilityType.Mobility,
-        severity: MobilitySeverity.Wheelchair,
+        accessibilityType: AccessibilityType.Audio,
+        severity: AudioSeverity.PartiallyDeaf,
         accessibilityRating: AccessibilityRating.Positive
     }, {
         id: 2,
@@ -21,8 +21,16 @@ const initialAttractions = [
         longitude: 2.343121,
         accessibilityType: AccessibilityType.Mobility,
         severity: MobilitySeverity.WalkingAid,
-        accessibilityRating: AccessibilityRating.Neutral
-    }
+        accessibilityRating: AccessibilityRating.Negative
+    }, {
+      id: 3,
+      name: "Louvre",
+      latitude: 48.861027,
+      longitude: 2.335708,
+      accessibilityType: AccessibilityType.Vision,
+      severity: VisionSeverity.FullyBlind,
+      accessibilityRating: AccessibilityRating.Neutral
+  }
 ]
 
 const initialTodosMfr = [

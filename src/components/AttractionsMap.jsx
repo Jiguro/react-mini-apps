@@ -24,8 +24,10 @@ function AttractionsMap({children, initialAttractions}) {
     const [newAttractionMode, setNewAttractionMode] = useState(false)
 
     function editExistingAttraction(attraction) {
-        setEditAttraction(attraction)
-        setNewAttractionMode(false)
+        if (!editAttraction && attraction) {
+            setEditAttraction(attraction)
+            setNewAttractionMode(false)
+        }
     }
 
     function editNewAttraction({x, y, lat, lng, event}) {
@@ -73,7 +75,7 @@ function AttractionsMap({children, initialAttractions}) {
             </div>
             {editAttraction && (
                 <>
-                    <i>{newAttractionMode ? 'New attraction details' : 'Existing attraction'}</i>
+                    <i>{newAttractionMode ? 'New attraction details' : 'Existing attraction details'}</i>
                     <AttractionForm attraction={editAttraction}
                                     submitCallback={submitAttraction}
                                     cancelCallback={clearForm}/>

@@ -1,31 +1,35 @@
-import { AccessibilityRating } from './Enums'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWheelchair, faEye, faEarDeaf } from '@fortawesome/free-solid-svg-icons';
+
+import { AccessibilityRating, AccessibilityType } from './Enums'
 import './Attraction.css'
 
 function Attraction({attraction, selectCallback}) {
 
-    function getRatingColor(rating) {
-        if (rating == AccessibilityRating.Positive) {
-            return 'green'
-        } else if (rating == AccessibilityRating.Neutral) {
-            return 'blue'
-        } else {
-            return 'red'
+    function getRatingColor() {
+        switch(attraction.accessibilityRating) {
+            case AccessibilityRating.Positive: return 'green'
+            case AccessibilityRating.Neutral: return 'blue'
+            default: return 'red'
         }
     }
 
     return (
         <>
-            <svg height="30" width="30" xmlns="http://www.w3.org/2000/svg">
-                <circle r="10" cx="15" cy="15" strokeWidth="5" fill="none"
-                        stroke={getRatingColor(attraction.accessibilityRating)} />
-            </svg>
+            {attraction.accessibilityType == AccessibilityType.Mobility
+                && (<FontAwesomeIcon icon={faWheelchair} size="3x" color={getRatingColor()} />)}
+            {attraction.accessibilityType == AccessibilityType.Vision
+                && (<FontAwesomeIcon icon={faEye} size="3x" color={getRatingColor()} />)}
+            {attraction.accessibilityType == AccessibilityType.Audio
+                && (<FontAwesomeIcon icon={faEarDeaf} size="3x"color={getRatingColor()} />)}
+
             <a onClick={e => selectCallback(attraction)}>{attraction.name}</a>
             <span>
                 Type: <strong>{attraction.accessibilityType}</strong>
                 <br/>
                 Severity: <strong>{attraction.severity}</strong>
                 <br/>
-                Rating: <strong>{attraction.accessibilityRating}</strong>
+                Rating: <strong className={attraction.accessibilityRating.toLowerCase()}>{attraction.accessibilityRating}</strong>
             </span>
         </>
     )
