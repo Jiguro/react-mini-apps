@@ -24,7 +24,7 @@ function AttractionsMap({children, initialAttractions}) {
     const [newAttractionMode, setNewAttractionMode] = useState(false)
 
     function editExistingAttraction(attraction) {
-        if (!editAttraction && attraction) {
+        if (!newAttractionMode && !editAttraction && attraction) {
             setEditAttraction(attraction)
             setNewAttractionMode(false)
         }

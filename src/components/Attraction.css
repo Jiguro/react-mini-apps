@@ -1,3 +1,18 @@
+.icon-box {
+    border-width: 4px;
+    border-style: solid;
+    width: fit-content;
+    &.positive {
+        border-image: linear-gradient(to bottom right, green 0%, rgba(255,255,255,0) 15%) 1;
+    }
+    &.neutral {
+        border-image: linear-gradient(to bottom right, blue 0%, rgba(255,255,255,0) 15%) 1;
+    }
+    &.negative {
+        border-image: linear-gradient(to bottom right, red 0%, rgba(255,255,255,0) 15%) 1;
+    }
+}
+
 a {
     color: black;
     text-decoration: underline;
