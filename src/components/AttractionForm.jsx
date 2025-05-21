@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWheelchair, faEye, faEarDeaf, faThumbsUp, faHandPeace, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faWheelchair, faEye, faEarDeaf, faThumbsUp, faHandPeace, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import { AccessibilityType, MobilitySeverity, VisionSeverity, AudioSeverity, AccessibilityRating } from './Enums'
 import { getRatingColor } from './Attraction'
@@ -30,13 +31,14 @@ function getRatingIcon(accRat) {
     }
 }
 
-function AttractionForm({attraction, submitCallback, cancelCallback}) {
-    const [editAttraction, setEditAttraction] = useState(attraction)
-    const [currentType, setCurrentType] = useState(attraction.accessibilityType)
+const AttractionForm = forwardRef((props, ref) => {
+    const [editAttraction, setEditAttraction] = useState(props.attraction)
+    const [currentType, setCurrentType] = useState(props.attraction.accessibilityType)
+    const [gpsLocationMode, setGpsLocationMode] = useState(false)
 
     function submitAttraction(event) {
         event.preventDefault()
-        submitCallback(editAttraction)
+        props.submitCallback(editAttraction)
     }
 
     function switchAccessibilityType(accType) {
@@ -44,11 +46,27 @@ function AttractionForm({attraction, submitCallback, cancelCallback}) {
         setEditAttraction({...editAttraction, accessibilityType: accType})
     }
 
+    const changeGpsLocation = (lat, lng) => {
+        if (gpsLocationMode) {
+            setEditAttraction({...editAttraction, latitude: lat, longitude: lng})
+            setGpsLocationMode(false)
+        }
+    } 
+
+    useImperativeHandle(ref, () => ({
+        changeGpsLocation
+    }));
+
     return (
         <>
             <form onSubmit={submitAttraction}>
                 <input type='text' value={editAttraction.name} required
                        onChange={e => setEditAttraction({...editAttraction, name: e.target.value})}/>
+                <br/>
+                <span>GPS latitude=<strong>{editAttraction.latitude}</strong> | longitude=<strong>{editAttraction.longitude}</strong></span>
+                {gpsLocationMode
+                    ? (<><br/><i>(Click on map to choose location!)</i></>)
+                    : (<FontAwesomeIcon icon={faPencil} onClick={e => setGpsLocationMode(true)}/>)}
                 <br/>
                 {Object.keys(AccessibilityType).map(accType => (
                     <label key={'accType-' + accType}>
@@ -78,11 +96,11 @@ function AttractionForm({attraction, submitCallback, cancelCallback}) {
                 ))}
                 <br/>
                 <button type='submit'>Submit</button>
-                <button onClick={cancelCallback}>Cancel</button>
+                <button onClick={props.cancelCallback}>Cancel</button>
             </form>
         </>
     )
-}
+});
 
 export default AttractionForm
 export { getSeverityEnum, getTypeIcon, getRatingIcon }

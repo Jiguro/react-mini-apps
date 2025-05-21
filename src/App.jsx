@@ -33,18 +33,6 @@ const initialAttractions = [
   }
 ]
 
-const initialTodosMfr = [
-  {
-    id: 1,
-    task: "Learn Angular",
-    completed: true
-  }, {
-    id: 2,
-    task: "Learn ReactJS",
-    completed: false
-  }
-]
-
 function App() {
 
   return (
@@ -53,22 +41,6 @@ function App() {
         <AttractionsMap initialAttractions={initialAttractions}>
           <h1>Attractions suitable for disabled visitors</h1>
         </AttractionsMap>
-      </section>
-      <section>
-        <h1>Fitness Tracker</h1>
-        <Counter label='Cardio sessions'/>
-        <Counter label='Free weights sessions'/>
-        <Counter label='Sips of water'/>
-      </section>
-      <section>
-        <ToDoList initialTodos={initialTodosMfr}>
-          <h3>MFR ToDos</h3>
-        </ToDoList>
-      </section>
-      <section>
-        <ToDoList initialTodos={[]}>
-          <img src={viteLogo}/>
-        </ToDoList>
       </section>
     </>
   )

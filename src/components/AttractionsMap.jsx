@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import GoogleMapReact from 'google-map-react'
 
 import Attraction from './Attraction'
@@ -22,6 +22,7 @@ function AttractionsMap({children, initialAttractions}) {
     const [attractions, setAttractions] = useState(initialAttractions)
     const [editAttraction, setEditAttraction] = useState(null)
     const [newAttractionMode, setNewAttractionMode] = useState(false)
+    const editFormRef = useRef()
 
     function editExistingAttraction(attraction) {
         if (!newAttractionMode && !editAttraction && attraction) {
@@ -30,17 +31,20 @@ function AttractionsMap({children, initialAttractions}) {
         }
     }
 
-    function editNewAttraction({x, y, lat, lng, event}) {
-        if (newAttractionMode) {
+    function clickOnMap({x, y, lat, lng, event}) {
+        let [roundedLat, roundedLng] = [lat.toFixed(5), lng.toFixed(5)]
+        if (newAttractionMode && !editAttraction) {
             setEditAttraction({
                 id: attractions.length + 1,
                 name: "",
-                latitude: lat,
-                longitude: lng,
+                latitude: roundedLat,
+                longitude: roundedLng,
                 accessibilityType: null,
                 severity: null,
                 accessibilityRating: null
             })
+        } else if (editAttraction) {
+            editFormRef.current.changeGpsLocation(roundedLat, roundedLng);
         }
     }
 
@@ -65,7 +69,7 @@ function AttractionsMap({children, initialAttractions}) {
                 <GoogleMapReact bootstrapURLKeys={{ key: defaultMapProps.apiKey }}
                                 defaultCenter={defaultMapProps.center}
                                 defaultZoom={defaultMapProps.zoom}
-                                onClick={editNewAttraction}>
+                                onClick={clickOnMap}>
                     {attractions.map(attraction => (
                         <Attraction key={attraction.id}
                                     lat={attraction.latitude} lng={attraction.longitude}
@@ -78,7 +82,8 @@ function AttractionsMap({children, initialAttractions}) {
                     <i>{newAttractionMode ? 'New attraction details' : 'Existing attraction details'}</i>
                     <AttractionForm attraction={editAttraction}
                                     submitCallback={submitAttraction}
-                                    cancelCallback={clearForm}/>
+                                    cancelCallback={clearForm}
+                                    ref={editFormRef}/>
                 </>
             )}
             {!editAttraction && (
