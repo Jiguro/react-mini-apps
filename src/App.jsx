@@ -1,9 +1,9 @@
-import viteLogo from '/vite.svg'
 import './App.css'
-import Counter from './components/Counter'
-import ToDoList from './components/ToDoList'
 import AttractionsMap from './components/AttractionsMap'
 import { AccessibilityType, MobilitySeverity, AccessibilityRating, VisionSeverity, AudioSeverity } from './components/Enums'
+import { useAuth0 } from '@auth0/auth0-react'
+import LoginButton from './components/LoginButton'
+import LogoutButton from './components/LogoutButton'
 
 const initialAttractions = [
     {
@@ -34,12 +34,20 @@ const initialAttractions = [
 ]
 
 function App() {
+  const { isAuthenticated } = useAuth0();
 
   return (
     <>
-      <section>
+      <section className='nav-section'>
+        <h2>Attractions rated by disabled travelers</h2>
+        {isAuthenticated ? (<LogoutButton/>) : (<LoginButton/>)}
+      </section>
+      <section className='main-section'>
         <AttractionsMap initialAttractions={initialAttractions}>
-          <h1>Attractions suitable for disabled visitors</h1>
+          <form onSubmit={e => e.preventDefault()}>
+            <input type='text' placeholder='e.g. Madrid'/>
+            <button type='submit'>Find nearby</button>
+          </form>
         </AttractionsMap>
       </section>
     </>

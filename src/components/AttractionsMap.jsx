@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import GoogleMapReact from 'google-map-react'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import Attraction from './Attraction'
 import AttractionForm from './AttractionForm'
-import { AccessibilityType, MobilitySeverity, VisionSeverity, AudioSeverity, AccessibilityRating } from './Enums'
 
 const defaultMapProps = {
     apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -23,6 +23,7 @@ function AttractionsMap({children, initialAttractions}) {
     const [editAttraction, setEditAttraction] = useState(null)
     const [newAttractionMode, setNewAttractionMode] = useState(false)
     const editFormRef = useRef()
+    const { isAuthenticated } = useAuth0();
 
     function editExistingAttraction(attraction) {
         if (!newAttractionMode && !editAttraction && attraction) {
@@ -77,7 +78,7 @@ function AttractionsMap({children, initialAttractions}) {
                     ))}
                 </GoogleMapReact>
             </div>
-            {editAttraction && (
+            {isAuthenticated && editAttraction && (
                 <>
                     <i>{newAttractionMode ? 'New attraction details' : 'Existing attraction details'}</i>
                     <AttractionForm attraction={editAttraction}
@@ -86,7 +87,7 @@ function AttractionsMap({children, initialAttractions}) {
                                     ref={editFormRef}/>
                 </>
             )}
-            {!editAttraction && (
+            {isAuthenticated && !editAttraction && (
                 <button disabled={newAttractionMode}
                         onClick={e => setNewAttractionMode(true)}>
                     {newAttractionMode ? 'Now click on desired map location' : 'Click here to add a new attraction'}
