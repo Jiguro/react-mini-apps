@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "cname": "cp CNAME dist/",
     "lint": "eslint .",
     "preview": "vite preview",
     "prod": "npm run build && npm run preview"
