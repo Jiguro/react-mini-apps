@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -7,23 +7,27 @@ import AttractionForm from './AttractionForm'
 
 const defaultMapProps = {
     apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    center: { // Louvre museum
-      lat: 48.861027,
-      lng: 2.335708
+    center: { // Madrid For Refugees office
+      lat: 40.407147,
+      lng: -3.708679
     },
-    zoom: 12,
+    zoom: 13,
     dimensionStyle: {
         height: '50vh',
         width: '100%'
     }
 }
 
-function AttractionsMap({children, initialAttractions}) {
-    const [attractions, setAttractions] = useState(initialAttractions)
+function AttractionsMap({children, initialAttractions, fetchAnewCallback}) {
+    const [attractions, setAttractions] = useState([])
     const [editAttraction, setEditAttraction] = useState(null)
     const [newAttractionMode, setNewAttractionMode] = useState(false)
     const editFormRef = useRef()
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+    useEffect(() => {
+        setAttractions(initialAttractions)
+    }, [initialAttractions]);
 
     function editExistingAttraction(attraction) {
         if (!newAttractionMode && !editAttraction && attraction) {
@@ -36,7 +40,7 @@ function AttractionsMap({children, initialAttractions}) {
         let [roundedLat, roundedLng] = [lat.toFixed(5), lng.toFixed(5)]
         if (newAttractionMode && !editAttraction) {
             setEditAttraction({
-                id: attractions.length + 1,
+                id: crypto.randomUUID(),
                 name: "",
                 latitude: roundedLat,
                 longitude: roundedLng,
@@ -51,9 +55,29 @@ function AttractionsMap({children, initialAttractions}) {
 
     function submitAttraction(submittedAttraction) {
         if (newAttractionMode) {
-            setAttractions([...attractions, submittedAttraction])
+            var newAttractionRequest = {
+                attractionName: submittedAttraction.name,
+                attractionLongitude: submittedAttraction.longitude,
+                attractionLatitude: submittedAttraction.latitude,
+                disabilityType: submittedAttraction.accessibilityType,
+                ratingLevel: submittedAttraction.accessibilityRating
+            }
+
+            getAccessTokenSilently().then(accessToken => {
+                fetch(`${import.meta.env.VITE_TRAVEL_APP_BACKEND_BASE_URL}/attraction`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${accessToken}`,
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(newAttractionRequest),
+                    }
+                ).then(response => fetchAnewCallback(Date.now()))
+                .catch(error => console.error(error));
+            });
         } else {
-            setAttractions(attractions.map(attraction => attraction.id == submittedAttraction.id ? submittedAttraction : attraction))
+            window.alert("Updating an existing attraction has not yet been implemented!")
         }
         clearForm()
     }
@@ -98,3 +122,4 @@ function AttractionsMap({children, initialAttractions}) {
 }
 
 export default AttractionsMap
+export {defaultMapProps}
