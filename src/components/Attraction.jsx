@@ -28,8 +28,6 @@ function Attraction({attraction, selectCallback}) {
             <span>
                 Type: <strong>{attraction.accessibilityType}</strong>
                 <br/>
-                Severity: <strong>{attraction.severity}</strong>
-                <br/>
                 Rating: <strong className={attraction.accessibilityRating.toLowerCase()}>{attraction.accessibilityRating}</strong>
             </span>
         </>

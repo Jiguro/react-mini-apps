@@ -45,7 +45,6 @@ function AttractionsMap({children, initialAttractions, fetchAnewCallback}) {
                 latitude: roundedLat,
                 longitude: roundedLng,
                 accessibilityType: null,
-                severity: null,
                 accessibilityRating: null
             })
         } else if (editAttraction) {

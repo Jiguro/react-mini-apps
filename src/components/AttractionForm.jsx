@@ -77,15 +77,6 @@ const AttractionForm = forwardRef((props, ref) => {
                     </label>
                 ))}
                 <br/>
-                {Object.keys(getSeverityEnum(currentType)).map(sev => (
-                    <label key={'sev-' + sev}>
-                        <input type='radio' value={sev} name={'sev' + currentType} required
-                               checked={sev == editAttraction.severity}
-                               onChange={e => setEditAttraction({...editAttraction, severity: sev})}/>
-                        {sev}
-                    </label>
-                ))}
-                <br/>
                 {Object.keys(AccessibilityRating).map(accRat => (
                     <label key={'accRat-' + accRat}>
                         <input type='radio' value={accRat} name='accRat' required
