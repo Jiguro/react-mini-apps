@@ -9,24 +9,24 @@ import './AttractionForm.css'
 
 function getSeverityEnum(accType) {
     switch(accType) {
-        case AccessibilityType.Mobility: return MobilitySeverity
-        case AccessibilityType.Vision: return VisionSeverity
+        case AccessibilityType.MOBILITY: return MobilitySeverity
+        case AccessibilityType.VISION: return VisionSeverity
         default: return AudioSeverity
     }
 }
 
 function getTypeIcon(accType) {
     switch(accType) {
-        case AccessibilityType.Mobility: return faWheelchair
-        case AccessibilityType.Vision: return faEye
+        case AccessibilityType.MOBILITY: return faWheelchair
+        case AccessibilityType.VISION: return faEye
         default: return faEarDeaf
     }
 }
 
 function getRatingIcon(accRat) {
     switch(accRat) {
-        case AccessibilityRating.Positive: return faThumbsUp
-        case AccessibilityRating.Neutral: return faHandPeace
+        case AccessibilityRating.GOOD: return faThumbsUp
+        case AccessibilityRating.NEUTRAL: return faHandPeace
         default: return faThumbsDown
     }
 }
@@ -74,15 +74,6 @@ const AttractionForm = forwardRef((props, ref) => {
                                checked={accType == editAttraction.accessibilityType}
                                onChange={e => switchAccessibilityType(accType)}/>
                         {accType} <FontAwesomeIcon icon={getTypeIcon(accType)}/>
-                    </label>
-                ))}
-                <br/>
-                {Object.keys(getSeverityEnum(currentType)).map(sev => (
-                    <label key={'sev-' + sev}>
-                        <input type='radio' value={sev} name={'sev' + currentType} required
-                               checked={sev == editAttraction.severity}
-                               onChange={e => setEditAttraction({...editAttraction, severity: sev})}/>
-                        {sev}
                     </label>
                 ))}
                 <br/>

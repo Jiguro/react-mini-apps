@@ -1,8 +1,8 @@
 
 const AccessibilityType = {
-    Mobility: 'Mobility',
-    Vision: 'Vision',
-    Audio: 'Audio',
+    MOBILITY: 'MOBILITY',
+    VISION: 'VISION',
+    AUDIO: 'AUDIO',
 }
 
 const MobilitySeverity = {
@@ -22,9 +22,9 @@ const AudioSeverity = {
 }
 
 const AccessibilityRating = {
-    Positive: 'Positive',
-    Neutral: 'Neutral',
-    Negative: 'Negative',
+    GOOD: 'GOOD',
+    NEUTRAL: 'NEUTRAL',
+    BAD: 'BAD',
 }
 
 export {AccessibilityType, MobilitySeverity, VisionSeverity, AudioSeverity, AccessibilityRating}

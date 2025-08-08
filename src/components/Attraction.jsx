@@ -6,8 +6,8 @@ import './Attraction.css'
 
 function getRatingColor(rating) {
     switch(rating) {
-        case AccessibilityRating.Positive: return 'green'
-        case AccessibilityRating.Neutral: return 'blue'
+        case AccessibilityRating.GOOD: return 'green'
+        case AccessibilityRating.NEUTRAL: return 'blue'
         default: return 'red'
     }
 }
@@ -17,18 +17,16 @@ function Attraction({attraction, selectCallback}) {
     return (
         <>
             <div className={'icon-box ' + attraction.accessibilityRating.toLowerCase()}>
-                {attraction.accessibilityType == AccessibilityType.Mobility
+                {attraction.accessibilityType == AccessibilityType.MOBILITY
                     && (<FontAwesomeIcon icon={faWheelchair} size="3x" color={getRatingColor(attraction.accessibilityRating)} />)}
-                {attraction.accessibilityType == AccessibilityType.Vision
+                {attraction.accessibilityType == AccessibilityType.VISION
                     && (<FontAwesomeIcon icon={faEye} size="3x" color={getRatingColor(attraction.accessibilityRating)} />)}
-                {attraction.accessibilityType == AccessibilityType.Audio
+                {attraction.accessibilityType == AccessibilityType.AUDIO
                     && (<FontAwesomeIcon icon={faEarDeaf} size="3x"color={getRatingColor(attraction.accessibilityRating)} />)}
             </div>
             <a onClick={e => selectCallback(attraction)}>{attraction.name}</a>
             <span>
                 Type: <strong>{attraction.accessibilityType}</strong>
-                <br/>
-                Severity: <strong>{attraction.severity}</strong>
                 <br/>
                 Rating: <strong className={attraction.accessibilityRating.toLowerCase()}>{attraction.accessibilityRating}</strong>
             </span>
