@@ -23,7 +23,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_TRAVEL_APP_BACKEND_BASE_URL}/attraction?searchPointLongitude=${defaultMapProps.center.lng}&searchPointLatitude=${defaultMapProps.center.lat}`)
+    fetch(`https://travel-spring-backend-app-tk4r.onrender.com/api/attraction?searchPointLongitude=${defaultMapProps.center.lng}&searchPointLatitude=${defaultMapProps.center.lat}`)
       .then(response => response.json())
       .then(json => setFetchedAttractions(json.content.map(dto => convert(dto))))
       .catch(error => console.error(error));
