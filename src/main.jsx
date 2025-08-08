@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     cacheLocation="memory"
     authorizationParams = {{
       redirect_uri: window.location.origin,
-      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+      audience: "https://dev-fei5o32deyyjp7oq.us.auth0.com/api/v2/",
     }}
   >
     <StrictMode>
