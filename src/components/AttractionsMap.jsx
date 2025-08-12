@@ -63,7 +63,7 @@ function AttractionsMap({children, initialAttractions, fetchAnewCallback}) {
             }
 
             getAccessTokenSilently().then(accessToken => {
-                fetch(`https://travel-spring-backend-app-tk4r.onrender.com/api/attraction`,
+                fetch(`${import.meta.env.VITE_TRAVEL_APP_BACKEND_BASE_URL}/attraction`,
                     {
                         method: "POST",
                         headers: {
