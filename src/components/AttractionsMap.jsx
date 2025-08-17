@@ -76,7 +76,7 @@ function AttractionsMap({children, initialAttractions, fetchAnewCallback}) {
                 .catch(error => console.error(error));
             });
         } else {
-            window.alert("Updating an existing attraction has not yet been implemented!")
+            window.alert("Updating an existing attraction has not yet been implemented.")
         }
         clearForm()
     }
